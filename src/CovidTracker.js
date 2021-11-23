@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { DetailsCard } from './DetailsCard.js';
-import { CountrySearch } from './CountrySearch.js';
+import { DataSearch } from './DataSearch.js';
 import { ContinentFilter } from './ContinentFilter.js';
 import { DataSort } from './DataSort.js';
 
@@ -9,7 +9,7 @@ export class CovidTracker extends LitElement {
     return {
       loading: { type: Boolean },
       data: { type: Array },
-      processedCountries: { type: Array },
+      processedData: { type: Array },
       ascendingOrder: { type: Boolean },
       sortType: { type: String },
       continentFilter: { type: Array },
@@ -27,7 +27,7 @@ export class CovidTracker extends LitElement {
     this.loading = true;
     this.ascendingOrder = true;
     this.data = null;
-    this.processedCountries = null;
+    this.processedData = null;
     this.sortType = 'alphabetical';
     this.continentFilter = [];
     this.searchKey = '';
@@ -37,11 +37,11 @@ export class CovidTracker extends LitElement {
     super.connectedCallback();
 
     if (!this.data) {
-      this.fetchCountries();
+      this.fetchData();
     }
   }
 
-  async fetchCountries() {
+  async fetchData() {
     this.loading = true;
     const myHeaders = new Headers({
       "x-rapidapi-host": "covid-193.p.rapidapi.com",
@@ -53,7 +53,7 @@ export class CovidTracker extends LitElement {
     });
     const jsonResponse = await response.json();
     this.data = jsonResponse.response;
-    this.processedCountries = jsonResponse.response.sort(function(a, b){ return a.country.localeCompare(b.country)});
+    this.processedData = jsonResponse.response.sort(function(a, b){ return a.country.localeCompare(b.country)});
     this.loading = false;
     // this.countries = this.sortCountriesBy();
   }
@@ -64,18 +64,23 @@ export class CovidTracker extends LitElement {
     if (this.loading){
       return 'Loading..';
     }
-    // this.processedCountries.map(c=>console.log(c));
+    // this.processedData.map(c=>console.log(c));
+    // this.processedData.map(item => console.log(item.country));
     return html`
-      <country-search @change-search-key="${this._changeSearchKey}"></country-search>
+      <h1 style="text-align: center">Covid Case Tracker</h1>
+      <data-search @change-search-key="${this._changeSearchKey}"></data-search>
       <continent-filter .continentFilter="${this.continentFilter}" @change-continent-filter="${this._changeContinentFilter}"></continent-filter>
       <data-sort
       .ascendingOrder="${this.ascendingOrder}"
       .sortType="${this.sortType}"
       @change-order="${this._changeOrder}"
-      @change-sort-type="${this._changeSortType}"></data-sort>
-      ${this.processedCountries.map(item => html`
-          <details-card .details="${item}"></details-card><br>
-        `)}
+      @change-sort-type="${this._changeSortType}"
+      ></data-sort>
+      <div style="display: flex;flex-wrap: wrap;">
+        ${this.processedData.map(item => html`
+            <details-card .details="${item}"></details-card>
+          `)}
+      </div>
 
     `;
   }
@@ -109,48 +114,48 @@ export class CovidTracker extends LitElement {
 
   _filterDataByContinent(){
     if(this.continentFilter.length > 0){
-      this.processedCountries = this.data.filter(country => this.continentFilter.includes(country.continent));
+      this.processedData = this.data.filter(country => this.continentFilter.includes(country.continent));
     }else
-      this.processedCountries = this.data;
+      this.processedData = this.data;
   }
 
   _filterBySearchKey(){
     if(this.searchKey.length > 0)
-      this.processedCountries = this.processedCountries.filter(c => c.country.toLowerCase().includes(this.searchKey.toLowerCase()));
+      this.processedData = this.processedData.filter(c => c.country.toLowerCase().includes(this.searchKey.toLowerCase()));
   }
 
   _sortData(){
     switch(this.sortType){
-      case 'alphabetical': this.processedCountries = this.processedCountries.sort(function(a, b){ return a.country.localeCompare(b.country)});
+      case 'alphabetical': this.processedData = this.processedData.sort(function(a, b){ return a.country.localeCompare(b.country)});
         break;
       case 'population': 
-        this.processedCountries = this.processedCountries.filter(country => country.population !== null);
-        this.processedCountries.sort(function(a, b){return (a.population)-(b.population)});
+        this.processedData = this.processedData.filter(country => country.population !== null);
+        this.processedData.sort(function(a, b){return (a.population)-(b.population)});
         break;
       case 'activeCases': 
-        this.processedCountries = this.processedCountries.filter(country => country.cases.active !== null);
-        this.processedCountries.sort(function(a, b){return (a.cases.active)-(b.cases.active)});
+        this.processedData = this.processedData.filter(country => country.cases.active !== null);
+        this.processedData.sort(function(a, b){return (a.cases.active)-(b.cases.active)});
         break;
       case 'totalCases': 
-        this.processedCountries = this.processedCountries.filter(country => country.cases.total !== null);
-        this.processedCountries.sort(function(a, b){return (a.cases.total)-(b.cases.total)});
+        this.processedData = this.processedData.filter(country => country.cases.total !== null);
+        this.processedData.sort(function(a, b){return (a.cases.total)-(b.cases.total)});
         break;
       case 'recovered': 
-        this.processedCountries = this.processedCountries.filter(country => country.cases.recovered !== null);
-        this.processedCountries.sort(function(a, b){return (a.cases.recovered)-(b.cases.recovered)});
+        this.processedData = this.processedData.filter(country => country.cases.recovered !== null);
+        this.processedData.sort(function(a, b){return (a.cases.recovered)-(b.cases.recovered)});
         break;
       case 'deaths': 
-        this.processedCountries = this.processedCountries.filter(country => country.deaths.total !== null);
-        this.processedCountries.sort(function(a, b){return (a.deaths.total)-(b.deaths.total)});
+        this.processedData = this.processedData.filter(country => country.deaths.total !== null);
+        this.processedData.sort(function(a, b){return (a.deaths.total)-(b.deaths.total)});
         break;
     }
     // console.log('---------------');
-    // this.processedCountries.map(c => console.log(c.country+' - '+c.cases.recovered));
-    if(!this.ascendingOrder) this.processedCountries = this.processedCountries.reverse();
+    // this.processedData.map(c => console.log(c.country+' - '+c.cases.recovered));
+    if(!this.ascendingOrder) this.processedData = this.processedData.reverse();
   }
 }
 
 customElements.define("details-card", DetailsCard);
-customElements.define("country-search", CountrySearch);
+customElements.define("data-search", DataSearch);
 customElements.define("continent-filter", ContinentFilter);
 customElements.define("data-sort", DataSort);

@@ -17,6 +17,9 @@
     "start": "web-dev-server"
   },
   "dependencies": {
+    "@material/mwc-icon": "^0.25.3",
+    "chart.js": "^3.6.0",
+    "country-code-lookup": "^0.0.19",
     "lit": "^2.0.2"
   },
   "devDependencies": {
