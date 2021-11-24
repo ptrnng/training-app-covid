@@ -25,7 +25,8 @@ export class DetailsCard extends LitElement {
       header{
         border-radius: 10px 10px 0 0;
         // background-image: linear-gradient(to top, darkgreen , red);
-        background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,#22272d),color-stop(1,darkred));
+        // background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,#22272d),color-stop(1,darkred));
+        background-color: rgba(0,0,0,0.5);
         color: white;
       }
 
@@ -33,9 +34,16 @@ export class DetailsCard extends LitElement {
       .data__card-listitem{
         box-sizing:border-box;
         box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+        background-color: #ffffff;
+        opacity: 0.7;
         width: 100%;
         border-radius: 10px;
-
+        position: relative;
+      }
+      .data__card-content{
+        background-color: white;
+        opacity: 1;
+        border-radius: 10px 10px 10px 10px;
       }
       .bar{
         border-radius: 25px;
@@ -59,16 +67,28 @@ export class DetailsCard extends LitElement {
         // background: darkred;
         min-height: 50px;
         border-radius: 10px 10px 0 0;
-        position: relative;
-        display: none;
+        position: absolute;
+        width: 100%;
+        z-index:-1;
+        // display: none;
       }
 
-      .data__card-listitem:hover .flag {display: block;}
+      .flag img{
+        border-radius: 10px 10px 0 0;
+      }
+
+      .data__card-listitem:hover .view-history {
+        display: block;
+      }
+      .data__card-listitem:hover .flag {
+        position: relative;
+      }
 
       .view-history:hover{
         filter: brightness(50%);
       }
       .view-history{
+        display: none;
         border: solid 1px white;
         width: 120px;
         position: absolute;
@@ -115,7 +135,7 @@ export class DetailsCard extends LitElement {
             <h2>${this.details.country}</h2>
           </header>
 
-          <div class="padding-20px">
+          <div class="data__card-content padding-20px">
             <h3>Recovered</h3>
             <div class="bar">
               <div class="bar__value-recovered" style="width: ${100*this.details.cases.recovered/this.details.cases.total}%">
