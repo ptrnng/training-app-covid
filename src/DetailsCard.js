@@ -24,8 +24,6 @@ export class DetailsCard extends LitElement {
       h5{margin: 5px;}
       header{
         border-radius: 10px 10px 0 0;
-        // background-image: linear-gradient(to top, darkgreen , red);
-        // background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,#22272d),color-stop(1,darkred));
         background-color: rgba(0,0,0,0.5);
         color: white;
         z-index:1;
@@ -36,8 +34,6 @@ export class DetailsCard extends LitElement {
         box-sizing:border-box;
         box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
         background-color: transparent;
-        // background-color: #ffffff;
-        // opacity: 0.7;
         width: 100%;
         border-radius: 10px;
         position: relative;
@@ -60,20 +56,18 @@ export class DetailsCard extends LitElement {
         min-width: 10%;
       }
       .bar__value-death{
-        background: darkred;//#f44336;
+        background: darkred;
       }
       .bar__value-active{
         background: black;
       }
 
       .flag {
-        // background: darkred;
         min-height: 50px;
         border-radius: 10px 10px 0 0;
         position: absolute;
         width: 100%;
         z-index:-1;
-        // display: none;
       }
 
       .flag img{
