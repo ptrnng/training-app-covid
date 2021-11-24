@@ -129,28 +129,28 @@ export class CovidTracker extends LitElement {
       case 'alphabetical': this.processedData = this.processedData.sort(function(a, b){ return a.country.localeCompare(b.country)});
         break;
       case 'population': 
-        this.processedData = this.processedData.filter(country => country.population !== null);
-        this.processedData.sort(function(a, b){return (a.population)-(b.population)});
+        this.processedData = this.processedData.filter(country => country.population);
+        this.processedData = this.processedData.sort(function(a, b){return (a.population)-(b.population)});
         break;
       case 'activeCases': 
-        this.processedData = this.processedData.filter(country => country.cases.active !== null);
-        this.processedData.sort(function(a, b){return (a.cases.active)-(b.cases.active)});
+        this.processedData = this.processedData.filter(country => country.cases.active);
+        this.processedData = this.processedData.sort(function(a, b){return (a.cases.active)-(b.cases.active)});
         break;
       case 'totalCases': 
-        this.processedData = this.processedData.filter(country => country.cases.total !== null);
-        this.processedData.sort(function(a, b){return (a.cases.total)-(b.cases.total)});
+        this.processedData = this.processedData.filter(country => country.cases.total);
+        this.processedData = this.processedData.sort(function(a, b){return (a.cases.total)-(b.cases.total)});
         break;
       case 'recovered': 
-        this.processedData = this.processedData.filter(country => country.cases.recovered !== null);
-        this.processedData.sort(function(a, b){return (a.cases.recovered)-(b.cases.recovered)});
+        this.processedData = this.processedData.filter(country => country.cases.recovered);
+        this.processedData = this.processedData.sort(function(a, b){return (a.cases.recovered)-(b.cases.recovered)});
         break;
       case 'deaths': 
-        this.processedData = this.processedData.filter(country => country.deaths.total !== null);
-        this.processedData.sort(function(a, b){return (a.deaths.total)-(b.deaths.total)});
+        this.processedData = this.processedData.filter(country => country.deaths.total);
+        this.processedData = this.processedData.sort(function(a, b){return (a.deaths.total)-(b.deaths.total)});
         break;
     }
     // console.log('---------------');
-    // this.processedData.map(c => console.log(c.country+' - '+c.cases.recovered));
+    // this.processedData.map(c => console.log(c.country+' - '+ typeof c.cases.active));
     if(!this.ascendingOrder) this.processedData = this.processedData.reverse();
   }
 }

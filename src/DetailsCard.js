@@ -128,6 +128,7 @@ export class DetailsCard extends LitElement {
   render() {
     if(this.details){
       return html`
+        <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
         <details-modal @close-modal="${this._closeModal}" .details="${this.details}" .modalOpen="${this.modalOpen}"></details-modal>
         <div class="data__card-listitem">
           <div class="flag">
@@ -136,6 +137,7 @@ export class DetailsCard extends LitElement {
           </div>
           <header class="padding-20px">
             <h2>${this.details.country}</h2>
+            <h4 style="padding-left: 40px; position: relative"><mwc-icon style="bottom: 0px;left: 3px;position: absolute;">groups</mwc-icon>${this.details.population ? this.details.population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}</h4>
           </header>
           <div class="data__card-content padding-20px">
             <h3>Recovered</h3>
