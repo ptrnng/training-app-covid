@@ -128,7 +128,7 @@ export class DetailsCard extends LitElement {
         <details-modal @close-modal="${this._closeModal}" .details="${this.details}" .modalOpen="${this.modalOpen}"></details-modal>
         <div class="data__card-listitem">
           <div class="flag">
-            <img width="100%" alt='' src="http://www.geognos.com/api/en/countries/flag/${CountryCodes[this.details.country]}.png">
+            <img width="100%" alt='' src="https://flagcdn.com/w1280/${CountryCodes[this.details.country]?CountryCodes[this.details.country].toLowerCase():''}.png">
             <button class="view-history" @click="${()=>this.modalOpen = true}">View History</button>
           </div>
           <header class="padding-20px">
