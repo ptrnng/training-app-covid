@@ -28,17 +28,20 @@ export class DetailsCard extends LitElement {
         // background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0,#22272d),color-stop(1,darkred));
         background-color: rgba(0,0,0,0.5);
         color: white;
+        z-index:1;
       }
 
       .padding-20px{padding: 20px;}
       .data__card-listitem{
         box-sizing:border-box;
         box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
-        background-color: #ffffff;
-        opacity: 0.7;
+        background-color: transparent;
+        // background-color: #ffffff;
+        // opacity: 0.7;
         width: 100%;
         border-radius: 10px;
         position: relative;
+        z-index: 1;
       }
       .data__card-content{
         background-color: white;
@@ -134,7 +137,6 @@ export class DetailsCard extends LitElement {
           <header class="padding-20px">
             <h2>${this.details.country}</h2>
           </header>
-
           <div class="data__card-content padding-20px">
             <h3>Recovered</h3>
             <div class="bar">
@@ -158,6 +160,7 @@ export class DetailsCard extends LitElement {
             <h4>Total Cases: ${this.details.cases.total? this.details.cases.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}</h4>
             <h4>Total Tested: ${this.details.tests.total? this.details.tests.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}</h4>
           </div>
+          
         </div>
       `;
     }else
