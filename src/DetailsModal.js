@@ -79,6 +79,7 @@ export class DetailsModal extends LitElement {
     const jsonResponse = await response.json();
     this.history = jsonResponse.response.reverse();
     this.loading = false;
+    this._createChart();
   }
 
   shouldUpdate(changedProperties) {
@@ -86,16 +87,17 @@ export class DetailsModal extends LitElement {
       if(propName === 'modalOpen'){
         if(typeof oldValue !== 'undefined' && !oldValue){
           this.shadowRoot.getElementById(this.details.country + '-modal').style.display='block';
-          this.fetchData();
+          if(this.history === null){
+            this.fetchData();
+          }
         }
       }
     });
     return true;
   }
 
-  render() {
-    if(!this.loading){
-      const ctx = this.renderRoot.querySelector( '#myChart' ).getContext('2d');
+  _createChart(){
+    const ctx = this.renderRoot.querySelector( '#myChart' ).getContext('2d');
       new Chart(ctx, {
         type: 'line',
         data: {
@@ -121,7 +123,9 @@ export class DetailsModal extends LitElement {
           legend: {display: false}
         }
       });
-    }
+  }
+
+  render() {
     if(this.details){
       // console.log(CountryCodes[this.details.country]);
       return html`
