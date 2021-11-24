@@ -14,7 +14,7 @@
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server"
+    "start": "node app.js"
   },
   "dependencies": {
     "@material/mwc-icon": "^0.25.3",
