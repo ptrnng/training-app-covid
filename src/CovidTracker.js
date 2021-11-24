@@ -62,20 +62,22 @@ export class CovidTracker extends LitElement {
   render() {
 
     if (this.loading){
-      return 'Loading..';
+      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
     }
-    // this.processedData.map(c=>console.log(c));
-    // this.processedData.map(item => console.log(item.country));
     return html`
       <h1 style="text-align: center">Covid Case Tracker</h1>
+
       <data-search @change-search-key="${this._changeSearchKey}"></data-search>
+
       <continent-filter .continentFilter="${this.continentFilter}" @change-continent-filter="${this._changeContinentFilter}"></continent-filter>
+
       <data-sort
       .ascendingOrder="${this.ascendingOrder}"
       .sortType="${this.sortType}"
       @change-order="${this._changeOrder}"
       @change-sort-type="${this._changeSortType}"
       ></data-sort>
+
       <div style="display: flex;flex-wrap: wrap;">
         ${this.processedData.map(item => html`
             <details-card .details="${item}"></details-card>

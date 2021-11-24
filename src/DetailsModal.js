@@ -127,14 +127,13 @@ export class DetailsModal extends LitElement {
 
   render() {
     if(this.details){
-      // console.log(CountryCodes[this.details.country]);
       return html`
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <div id="${this.details.country}-modal" class="modal">
           <div class="modal-content">
             <button id="closeButton" @click="${this._closeModal}">&times;</button>
             <h1>${this.details.country}</h1>
-            ${this.loading? 'Loading…' : ""}
+            ${this.loading? html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">` : ""}
             <div>
               <canvas id="myChart" style="width:100%;"></canvas>
             </div>
@@ -142,13 +141,11 @@ export class DetailsModal extends LitElement {
         </div>
       `
     }else
-      return html``;
+      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
   }
 
   _closeModal(){
     this.dispatchEvent(new CustomEvent('close-modal', { 'detail': ''}));
     this.shadowRoot.getElementById(this.details.country + '-modal').style.display='none';
-    // this.dispatchEvent(new CustomEvent('close-modal', { detail: this.details}));
   }
 }
-
