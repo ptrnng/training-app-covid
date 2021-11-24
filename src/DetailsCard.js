@@ -56,7 +56,7 @@ export class DetailsCard extends LitElement {
       }
 
       .flag {
-        background: darkred;
+        // background: darkred;
         min-height: 50px;
         border-radius: 10px 10px 0 0;
         position: relative;
@@ -134,12 +134,10 @@ export class DetailsCard extends LitElement {
                 ${this.details.cases.active ? this.details.cases.active.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}
               </div>
             </div>
-          </div>
 
-          <footer class="padding-20px">
             <h4>Total Cases: ${this.details.cases.total? this.details.cases.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}</h4>
             <h4>Total Tested: ${this.details.tests.total? this.details.tests.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N/A'}</h4>
-          </footer>
+          </div>
         </div>
       `;
     }else
