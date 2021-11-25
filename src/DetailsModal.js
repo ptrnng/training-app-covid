@@ -66,6 +66,44 @@ export class DetailsModal extends LitElement {
     this.loading = true;
   }
 
+  shouldUpdate(changedProperties) {
+    changedProperties.forEach((oldValue, propName) => {
+      if(propName === 'modalOpen'){
+        if(typeof oldValue !== 'undefined' && !oldValue){
+          this.shadowRoot.getElementById(this.details.country + '-modal').style.display='block';
+          if(this.history === null){
+            this.fetchData();
+          }
+        }
+      }
+    });
+    return true;
+  }
+
+  render() {
+    if(this.details){
+      return html`
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <div id="${this.details.country}-modal" class="modal">
+          <div class="modal-content">
+            <button id="closeButton" @click="${this._closeModal}">&times;</button>
+            <h1>${this.details.country}</h1>
+            ${this.loading? html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">` : ""}
+            <div>
+              <canvas id="myChart" style="width:100%;"></canvas>
+            </div>
+          </div>
+        </div>
+      `
+    }else
+      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
+  }
+
+  _closeModal(){
+    this.dispatchEvent(new CustomEvent('close-modal', { 'detail': ''}));
+    this.shadowRoot.getElementById(this.details.country + '-modal').style.display='none';
+  }
+  
   async fetchData() {
     this.loading = true;
     const myHeaders = new Headers({
@@ -80,20 +118,6 @@ export class DetailsModal extends LitElement {
     this.history = jsonResponse.response.reverse();
     this.loading = false;
     this._createChart();
-  }
-
-  shouldUpdate(changedProperties) {
-    changedProperties.forEach((oldValue, propName) => {
-      if(propName === 'modalOpen'){
-        if(typeof oldValue !== 'undefined' && !oldValue){
-          this.shadowRoot.getElementById(this.details.country + '-modal').style.display='block';
-          if(this.history === null){
-            this.fetchData();
-          }
-        }
-      }
-    });
-    return true;
   }
 
   _createChart(){
@@ -123,29 +147,5 @@ export class DetailsModal extends LitElement {
           legend: {display: false}
         }
       });
-  }
-
-  render() {
-    if(this.details){
-      return html`
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <div id="${this.details.country}-modal" class="modal">
-          <div class="modal-content">
-            <button id="closeButton" @click="${this._closeModal}">&times;</button>
-            <h1>${this.details.country}</h1>
-            ${this.loading? html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">` : ""}
-            <div>
-              <canvas id="myChart" style="width:100%;"></canvas>
-            </div>
-          </div>
-        </div>
-      `
-    }else
-      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
-  }
-
-  _closeModal(){
-    this.dispatchEvent(new CustomEvent('close-modal', { 'detail': ''}));
-    this.shadowRoot.getElementById(this.details.country + '-modal').style.display='none';
   }
 }

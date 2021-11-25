@@ -3,6 +3,7 @@ import { DetailsCard } from './DetailsCard.js';
 import { DataSearch } from './DataSearch.js';
 import { ContinentFilter } from './ContinentFilter.js';
 import { DataSort } from './DataSort.js';
+import { Loading } from './Loading.js';
 
 export class CovidTracker extends LitElement {
   static get properties() {
@@ -41,28 +42,11 @@ export class CovidTracker extends LitElement {
     }
   }
 
-  async fetchData() {
-    this.loading = true;
-    const myHeaders = new Headers({
-      "x-rapidapi-host": "covid-193.p.rapidapi.com",
-      "x-rapidapi-key": "5af96d14dbmsh51fc4214ae8ceb1p1a3d43jsncd88f5576ae6"
-    });
-    const response = await fetch('https://covid-193.p.rapidapi.com/statistics', {
-      method: 'GET',
-      headers: myHeaders
-    });
-    const jsonResponse = await response.json();
-    this.data = jsonResponse.response;
-    this.processedData = jsonResponse.response.sort(function(a, b){ return a.country.localeCompare(b.country)});
-    this.loading = false;
-    // this.countries = this.sortCountriesBy();
-  }
-
-
   render() {
 
     if (this.loading){
-      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
+      return html`<loading-gif></loading-gif>`;
+      // return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
     }
     return html`
       <h1 style="text-align: center">Covid Case Tracker</h1>
@@ -85,6 +69,22 @@ export class CovidTracker extends LitElement {
       </div>
 
     `;
+  }
+
+  async fetchData() {
+    this.loading = true;
+    const myHeaders = new Headers({
+      "x-rapidapi-host": "covid-193.p.rapidapi.com",
+      "x-rapidapi-key": "5af96d14dbmsh51fc4214ae8ceb1p1a3d43jsncd88f5576ae6"
+    });
+    const response = await fetch('https://covid-193.p.rapidapi.com/statistics', {
+      method: 'GET',
+      headers: myHeaders
+    });
+    const jsonResponse = await response.json();
+    this.data = jsonResponse.response;
+    this.processedData = jsonResponse.response.sort(function(a, b){ return a.country.localeCompare(b.country)});
+    this.loading = false;
   }
 
   _changeSortType(e){
@@ -161,3 +161,4 @@ customElements.define("details-card", DetailsCard);
 customElements.define("data-search", DataSearch);
 customElements.define("continent-filter", ContinentFilter);
 customElements.define("data-sort", DataSort);
+customElements.define("loading-gif", Loading);
