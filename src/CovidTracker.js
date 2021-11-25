@@ -44,10 +44,10 @@ export class CovidTracker extends LitElement {
 
   render() {
 
-    if (this.loading){
+    // if (this.loading){
       return html`<loading-gif></loading-gif>`;
       // return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
-    }
+    // }
     return html`
       <h1 style="text-align: center">Covid Case Tracker</h1>
 
