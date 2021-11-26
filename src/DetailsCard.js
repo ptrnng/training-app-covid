@@ -9,7 +9,8 @@ export class DetailsCard extends LitElement {
   static get properties() {
     return {
       details: { type: Object },
-      modalOpen: { type: Boolean }
+      modalOpen: { type: Boolean },
+      darkMode: { type: Boolean }
     };
   }
 
@@ -109,13 +110,18 @@ export class DetailsCard extends LitElement {
           width: 100%;
         }
       }
+
+      .darkMode .data__card-content{
+        background-image: linear-gradient(#292D31, #282C30);
+      }
     `;
   }
 
   constructor() {
     super();
     this.details = null;
-    this.modalOpen = false
+    this.modalOpen = false;
+    this.darkMode = false;
   }
 
 
@@ -123,8 +129,8 @@ export class DetailsCard extends LitElement {
     if(this.details){
       return html`
         <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
-        <details-modal @close-modal="${this._closeModal}" .details="${this.details}" .modalOpen="${this.modalOpen}"></details-modal>
-        <div class="data__card-listitem">
+        <details-modal @close-modal="${this._closeModal}" .darkMode="${this.darkMode}" .details="${this.details}" .modalOpen="${this.modalOpen}"></details-modal>
+        <div class="data__card-listitem ${this.darkMode? 'darkMode': ''}">
           <div class="flag">
             <img width="100%" alt='' src="https://flagcdn.com/w1280/${CountryCodes[this.details.country]?CountryCodes[this.details.country].toLowerCase():''}.png">
             <button class="view-history" @click="${()=>this.modalOpen = true}">View History</button>

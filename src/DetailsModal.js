@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import Chart from 'chart.js/auto';
+import { Loading } from './Loading.js';
 
 export class DetailsModal extends LitElement {
   static get properties() {
@@ -7,7 +8,8 @@ export class DetailsModal extends LitElement {
       details: { type: Object },
       modalOpen: { type: Boolean },
       history: { type: Object },
-      loading: { type: Boolean }
+      loading: { type: Boolean },
+      darkMode: { type: Boolean }
     };
   }
 
@@ -35,10 +37,9 @@ export class DetailsModal extends LitElement {
         padding: 30px;
         overflow: auto;
       }
-      .w3-button{
-        width:100%;
-        text-align:left;
-        padding:8px 16px;
+      #myChart-div{
+        background: white;
+        border-radius: 10px 10px 10px 10px;
       }
       #closeButton:hover{
         filter: brightness(50%);
@@ -55,6 +56,10 @@ export class DetailsModal extends LitElement {
         cursor: pointer;
         outline: 0px;
       }
+
+      .darkMode .modal-content{
+        background-image: linear-gradient(#292D31, #282C30);
+      }
     `;
   }
 
@@ -64,6 +69,7 @@ export class DetailsModal extends LitElement {
     this.history = null;
     this.modalOpen = false;
     this.loading = true;
+    this.darkMode = false;
   }
 
   shouldUpdate(changedProperties) {
@@ -84,26 +90,26 @@ export class DetailsModal extends LitElement {
     if(this.details){
       return html`
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <div id="${this.details.country}-modal" class="modal">
+        <div id="${this.details.country}-modal" class="modal ${this.darkMode? 'darkMode': ''}">
           <div class="modal-content">
             <button id="closeButton" @click="${this._closeModal}">&times;</button>
             <h1>${this.details.country}</h1>
-            ${this.loading? html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">` : ""}
-            <div>
+            ${this.loading? html`<loading-gif></loading-gif>` : ""}
+            <div id="myChart-div">
               <canvas id="myChart" style="width:100%;"></canvas>
             </div>
           </div>
         </div>
-      `
+      `;
     }else
-      return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
+      return html`<loading-gif></loading-gif>`;
   }
 
   _closeModal(){
-    this.dispatchEvent(new CustomEvent('close-modal', { 'detail': ''}));
     this.shadowRoot.getElementById(this.details.country + '-modal').style.display='none';
+    this.dispatchEvent(new CustomEvent('close-modal', { 'detail': ''}));
   }
-  
+
   async fetchData() {
     this.loading = true;
     const myHeaders = new Headers({

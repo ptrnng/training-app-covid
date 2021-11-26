@@ -4,6 +4,7 @@ import { DataSearch } from './DataSearch.js';
 import { ContinentFilter } from './ContinentFilter.js';
 import { DataSort } from './DataSort.js';
 import { Loading } from './Loading.js';
+import { DarkModeSwitch } from './DarkModeSwitch.js';
 
 export class CovidTracker extends LitElement {
   static get properties() {
@@ -14,12 +15,21 @@ export class CovidTracker extends LitElement {
       ascendingOrder: { type: Boolean },
       sortType: { type: String },
       continentFilter: { type: Array },
-      searchKey: { type: String }
+      searchKey: { type: String },
+      darkMode: { type: Boolean }
     };
   }
 
   static get styles() {
     return css`
+      #CovidTracker-app{
+        padding-top: 5%;
+      }
+      #CovidTracker-app.darkMode{
+        //dark;
+        background-image: linear-gradient(45deg, #31363A, #1E1F22);
+        color: lightgray;
+      }
     `;
   }
 
@@ -32,6 +42,7 @@ export class CovidTracker extends LitElement {
     this.sortType = 'alphabetical';
     this.continentFilter = [];
     this.searchKey = '';
+    this.darkMode = false;
   }
 
   connectedCallback() {
@@ -43,31 +54,36 @@ export class CovidTracker extends LitElement {
   }
 
   render() {
-
-    // if (this.loading){
-      return html`<loading-gif></loading-gif>`;
+    var content;
+    if (this.loading){
+      content = html`<loading-gif></loading-gif>`;
       // return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
-    // }
+    }else{
+      content = html`
+        <dark-mode-switch @toggle-switch="${this._toggleDarkModeSwitch}"></dark-mode-switch>
+        <h1 style="text-align: center">Covid Case Tracker</h1>
+
+        <data-search .darkMode=${this.darkMode} @change-search-key="${this._changeSearchKey}"></data-search>
+
+        <continent-filter .darkMode=${this.darkMode} .continentFilter="${this.continentFilter}" @change-continent-filter="${this._changeContinentFilter}"></continent-filter>
+
+        <data-sort .darkMode=${this.darkMode}
+        .ascendingOrder="${this.ascendingOrder}"
+        .sortType="${this.sortType}"
+        @change-order="${this._changeOrder}"
+        @change-sort-type="${this._changeSortType}"
+        ></data-sort>
+
+        <div style="display: flex;flex-wrap: wrap;">
+          ${this.processedData.map(item => html`
+              <details-card .darkMode=${this.darkMode} .details="${item}"></details-card>
+            `)}
+        </div>`;
+    }
     return html`
-      <h1 style="text-align: center">Covid Case Tracker</h1>
-
-      <data-search @change-search-key="${this._changeSearchKey}"></data-search>
-
-      <continent-filter .continentFilter="${this.continentFilter}" @change-continent-filter="${this._changeContinentFilter}"></continent-filter>
-
-      <data-sort
-      .ascendingOrder="${this.ascendingOrder}"
-      .sortType="${this.sortType}"
-      @change-order="${this._changeOrder}"
-      @change-sort-type="${this._changeSortType}"
-      ></data-sort>
-
-      <div style="display: flex;flex-wrap: wrap;">
-        ${this.processedData.map(item => html`
-            <details-card .details="${item}"></details-card>
-          `)}
+      <div class="${this.darkMode? 'darkMode': ''}" style="height: 100%" id="CovidTracker-app">
+        ${content}
       </div>
-
     `;
   }
 
@@ -82,9 +98,14 @@ export class CovidTracker extends LitElement {
       headers: myHeaders
     });
     const jsonResponse = await response.json();
+    console.log(JSON.stringify(jsonResponse));
     this.data = jsonResponse.response;
-    this.processedData = jsonResponse.response.sort(function(a, b){ return a.country.localeCompare(b.country)});
+    this.processedData = jsonResponse.response.sort((a, b)=> a.country.localeCompare(b.country));
     this.loading = false;
+  }
+
+  _toggleDarkModeSwitch(e){
+    this.darkMode = e.detail;
   }
 
   _changeSortType(e){
@@ -106,7 +127,6 @@ export class CovidTracker extends LitElement {
     this.continentFilter = e.detail;
     this._applyOptions();
   }
-
 
   _applyOptions(){
     this._filterDataByContinent();
@@ -162,3 +182,4 @@ customElements.define("data-search", DataSearch);
 customElements.define("continent-filter", ContinentFilter);
 customElements.define("data-sort", DataSort);
 customElements.define("loading-gif", Loading);
+customElements.define("dark-mode-switch", DarkModeSwitch);

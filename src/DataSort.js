@@ -6,6 +6,7 @@ export class DataSort extends LitElement {
     return {
       ascendingOrder: { type: Boolean },
       sortType: { type: String },
+      darkMode: { type: Boolean }
     };
   }
 
@@ -20,28 +21,40 @@ export class DataSort extends LitElement {
         padding: 10px 20px 10px 20px;
         width: 70%;
       }
+      #select-container{
+        position: relative;
+        width: 46%;
+        margin: 0 2% 0 2%;
+        padding: 0;
+      }
       .sort-icon{
         position: absolute;
-        left: 36px;
-        top: 16px;
+        left: 16px;
+        top: 4px;
+        z-index: 1;
       }
       #sortTypeSelector{
+        position: relative;
         text-align: center;
         border-radius: 2px;
         border-style: solid;
-        border-width: 1px;
+        border-width: 0;
         box-sizing: border-box;
         padding: 8px 16px 8px 16px;
-        width: 50%;
+        width: 100%;
+        box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
       }
+      
       #orderButton{
         position: relative;
         border-radius: 2px;
         border-style: solid;
-        border-width: 1px;
+        border-width: 0;
         box-sizing: border-box;
         padding: 8px 16px 8px 16px;
-        width: 50%;
+        width: 46%;
+        margin: 0 2% 0 2%;
+        box-shadow:0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
       }
       .order-icon{
         position: absolute;
@@ -60,9 +73,21 @@ export class DataSort extends LitElement {
           margin-left: 0;
           width: 100%;
         }
-        #sortTypeSelector, #orderButton{
+        #orderButton, #select-container{
           width: 100%;
         }
+      }
+
+      .darkMode #sortTypeSelector{
+        background-image: linear-gradient(#292D31, #282C30);
+        color: white;
+      }
+      .darkMode .sortTypeOption{
+        background: #292D31;
+      }
+      .darkMode #orderButton{
+        background-image: linear-gradient(#292D31, #282C30);
+        color: white;
       }
     `;
   }
@@ -71,21 +96,24 @@ export class DataSort extends LitElement {
     super();
     this.ascendingOrder = true;
     this.sortType = 'alphabetical';
+    this.darkMode = false;
   }
 
   render() {
     return html`
       <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
-      <div class="sort-container">
-        <mwc-icon class="sort-icon primary-text">sort</mwc-icon>
-        <select id="sortTypeSelector" @change=${e => this._changeSortType()}>
-          <option value="alphabetical">Alphabetical</option>
-          <option value="population">Population</option>
-          <option value="activeCases">Active Cases</option>
-          <option value="totalCases">Total Cases</option>
-          <option value="recovered">Recovered</option>
-          <option value="deaths">Deaths</option>
-        </select>
+      <div class="sort-container ${this.darkMode? 'darkMode': ''}">
+        <div id="select-container">
+          <mwc-icon class="sort-icon primary-text">sort</mwc-icon>
+          <select id="sortTypeSelector" @change=${e => this._changeSortType()}>
+            <option class="sortTypeOption" value="alphabetical">Alphabetical</option>
+            <option class="sortTypeOption" value="population">Population</option>
+            <option class="sortTypeOption" value="activeCases">Active Cases</option>
+            <option class="sortTypeOption" value="totalCases">Total Cases</option>
+            <option class="sortTypeOption" value="recovered">Recovered</option>
+            <option class="sortTypeOption" value="deaths">Deaths</option>
+          </select>
+        </div>
         <button id='orderButton' @click=${() => this._changeOrder()}>
           <mwc-icon class="order-icon">${this.ascendingOrder? 'north' : 'south'}</mwc-icon>
           ${this.ascendingOrder? `Ascending` : `Descending`}
