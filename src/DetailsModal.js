@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import Chart from 'chart.js/auto';
-import { Loading } from './Loading.js';
 
 export class DetailsModal extends LitElement {
   static get properties() {
@@ -101,8 +100,8 @@ export class DetailsModal extends LitElement {
           </div>
         </div>
       `;
-    }else
-      return html`<loading-gif></loading-gif>`;
+    }
+    return html`<loading-gif></loading-gif>`;
   }
 
   _closeModal(){
@@ -128,7 +127,7 @@ export class DetailsModal extends LitElement {
 
   _createChart(){
     const ctx = this.renderRoot.querySelector( '#myChart' ).getContext('2d');
-      new Chart(ctx, {
+    const chart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: this.history.map(h => h.day),

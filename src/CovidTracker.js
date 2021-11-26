@@ -54,7 +54,7 @@ export class CovidTracker extends LitElement {
   }
 
   render() {
-    var content;
+    let content;
     if (this.loading){
       content = html`<loading-gif></loading-gif>`;
       // return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
@@ -98,7 +98,6 @@ export class CovidTracker extends LitElement {
       headers: myHeaders
     });
     const jsonResponse = await response.json();
-    console.log(JSON.stringify(jsonResponse));
     this.data = jsonResponse.response;
     this.processedData = jsonResponse.response.sort((a, b)=> a.country.localeCompare(b.country));
     this.loading = false;
@@ -148,27 +147,27 @@ export class CovidTracker extends LitElement {
 
   _sortData(){
     switch(this.sortType){
-      case 'alphabetical': this.processedData = this.processedData.sort(function(a, b){ return a.country.localeCompare(b.country)});
-        break;
       case 'population': 
         this.processedData = this.processedData.filter(country => country.population);
         this.processedData = this.processedData.sort(function(a, b){return (a.population)-(b.population)});
         break;
       case 'activeCases': 
         this.processedData = this.processedData.filter(country => country.cases.active);
-        this.processedData = this.processedData.sort(function(a, b){return (a.cases.active)-(b.cases.active)});
+        this.processedData = this.processedData.sort((a, b)=> (a.cases.active)-(b.cases.active));
         break;
       case 'totalCases': 
         this.processedData = this.processedData.filter(country => country.cases.total);
-        this.processedData = this.processedData.sort(function(a, b){return (a.cases.total)-(b.cases.total)});
+        this.processedData = this.processedData.sort((a, b)=> (a.cases.total)-(b.cases.total));
         break;
       case 'recovered': 
         this.processedData = this.processedData.filter(country => country.cases.recovered);
-        this.processedData = this.processedData.sort(function(a, b){return (a.cases.recovered)-(b.cases.recovered)});
+        this.processedData = this.processedData.sort((a, b)=> (a.cases.recovered)-(b.cases.recovered));
         break;
       case 'deaths': 
         this.processedData = this.processedData.filter(country => country.deaths.total);
-        this.processedData = this.processedData.sort(function(a, b){return (a.deaths.total)-(b.deaths.total)});
+        this.processedData = this.processedData.sort((a, b)=>(a.deaths.total)-(b.deaths.total));
+        break;
+      default: this.processedData = this.processedData.sort((a, b)=>a.country.localeCompare(b.country));
         break;
     }
     // console.log('---------------');

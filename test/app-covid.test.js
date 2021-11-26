@@ -153,6 +153,7 @@ const dummyData = [
         }
       ]
 
+
 describe('AppCovid', () => {
   let element;
   beforeEach(async () => {
@@ -187,33 +188,63 @@ describe('ContinentFilter', () => {
 
 describe('CovidTracker', async() => {
   let el;
+  let fetchWrap;
 
   beforeEach(async() => {
-    let stubedFetch = await sinon.stub('fetch').resolve({response: dummyData});
-    
-    function mockApiResponse(body = {}) {
-      return new window.Response(JSON.stringify(body), {
-          "get": "statistics",
-          "parameters": [],
-          "errors": [],
-          "results": 236,
-          "response": dummyData
-          
-      });
-    }
+    fetchWrap = sinon.stub(window, 'fetch').resolves({
+        json: () => ({
+          response: dummyData
+        })
+      }
+    );
 
-    window.fetch.returns(Promise.resolve(mockApiResponse()));
     el = await fixture(html`<covid-tracker></covid-tracker>`);
+  });
+  afterEach(async () => {
+    fetchWrap.restore();
   });
 
   describe('_toggleDarkModeSwitch', async() => {
     it('should toggle darkMode value', async () => {
       const cb = el.shadowRoot.querySelector('dark-mode-switch');
-      setTimeout(() => {
-        cb.dispatchEvent(new CustomEvent('toggle-switch'));
-      });
-
+      cb.dispatchEvent(new CustomEvent('toggle-switch'));
       expect(!el.darkMode).to.eql(true);
+    });
+  });
+
+  describe('_changeSortType', async() => {
+    it('should update the value of sortType', async () => {
+      const cb = el.shadowRoot.querySelector('data-sort');
+      
+      cb.dispatchEvent(new CustomEvent('change-sort-type', {detail: 'activeCases'}));
+      expect(el.sortType).to.eql('activeCases');
+    });
+  });
+
+  describe('_changeOrder', async() => {
+    it('should update the value of ascendingOrder', async () => {
+      const cb = el.shadowRoot.querySelector('data-sort');
+      
+      cb.dispatchEvent(new CustomEvent('change-order', {detail: true}));
+      expect(el.ascendingOrder).to.eql(true);
+    });
+  });
+
+  describe('_changeSearchKey', async() => {
+    it('should update the value of searchKey', async () => {
+      const cb = el.shadowRoot.querySelector('data-search');
+      
+      cb.dispatchEvent(new CustomEvent('change-search-key', {detail: 'Africa'}));
+      expect(el.searchKey).to.eql('Africa');
+    });
+  });
+
+  describe('_changeContinentFilter', async() => {
+    it('should update the value of continentFilter', async () => {
+      const cb = el.shadowRoot.querySelector('continent-filter');
+      
+      cb.dispatchEvent(new CustomEvent('change-continent-filter', {detail: ['Asia']}));
+      expect(el.continentFilter).to.eql(['Asia']);
     });
   });
 });
@@ -270,17 +301,16 @@ describe('DataSearch', () => {
   });
 
   describe('_onKeyPress', async() => {
-    it('should dispatch the change-search-key event', async () => {
+    it('should call _changeSearchKey after pressing 2 keys', async () => {
       const input = el.shadowRoot.querySelector('input');
-      
+      const changeSearchKeySpy = sinon.spy(el, '_changeSearchKey');
       setTimeout(() => {
-        input.value = 'Philippines';
-        el._changeSearchKey();
+        input.dispatchEvent(new Event('keyup'));
+        input.dispatchEvent(new Event('keyup'));
       });
-
-      const event = await oneEvent(el, 'change-search-key');
-      expect(event).to.exist;
-      expect(event.detail).to.eql('Philippines');
+      setTimeout(() => {
+        expect(changeSearchKeySpy).calledOnce()
+      }, 500);
     });
   });
 });
@@ -348,14 +378,100 @@ describe('DetailsCard', () => {
   });
 });
 
+const modalDummyHistory = [
+  {
+      "continent": "Africa",
+      "country": "Africa",
+      "population": null,
+      "cases": {
+          "new": "+5722",
+          "active": 377962,
+          "critical": 1896,
+          "recovered": 8100314,
+          "1M_pop": null,
+          "total": 8701102
+      },
+      "deaths": {
+          "new": "+216",
+          "1M_pop": null,
+          "total": 222826
+      },
+      "tests": {
+          "1M_pop": null,
+          "total": null
+      },
+      "day": "2021-11-26",
+      "time": "2021-11-26T06:30:03+00:00"
+  },
+  {
+      "continent": "Africa",
+      "country": "Africa",
+      "population": null,
+      "cases": {
+          "new": "+3257",
+          "active": 379804,
+          "critical": 1896,
+          "recovered": 8096121,
+          "1M_pop": null,
+          "total": 8698637
+      },
+      "deaths": {
+          "new": "+102",
+          "1M_pop": null,
+          "total": 222712
+      },
+      "tests": {
+          "1M_pop": null,
+          "total": null
+      },
+      "day": "2021-11-26",
+      "time": "2021-11-26T01:00:02+00:00"
+  },
+  {
+      "continent": "Africa",
+      "country": "Africa",
+      "population": null,
+      "cases": {
+          "new": "+3095",
+          "active": 395051,
+          "critical": 1896,
+          "recovered": 8078939,
+          "1M_pop": null,
+          "total": 8696702
+      },
+      "deaths": {
+          "new": "+102",
+          "1M_pop": null,
+          "total": 222712
+      },
+      "tests": {
+          "1M_pop": null,
+          "total": null
+      },
+      "day": "2021-11-26",
+      "time": "2021-11-26T00:15:02+00:00"
+  }
+]
+
 describe('DetailsModal', () => {
   let el;
+  let fetchWrap;
   beforeEach(async () => {
-    el = await fixture(html`<details-modal .details="${dummyData[0]}"></details-modal>`);
+    fetchWrap = sinon.stub(window, 'fetch').resolves({
+        json: () => ({
+          response: modalDummyHistory
+        })
+      }
+    );
+    el = await fixture(html`<details-modal .openModa="${false}" .details="${dummyData[0]}"></details-modal>`);
+  });
+  afterEach(async () => {
+    fetchWrap.restore();
   });
 
   describe('_closeModal', async() => {
     it('should dispatch the close-modal event', async () => {
+      el = await fixture(html`<details-modal .openModa="${true}" .details="${dummyData[0]}"></details-modal>`);
       const comp = el.shadowRoot.querySelector('button');
       setTimeout(() => {
         el.modalOpen = true;
