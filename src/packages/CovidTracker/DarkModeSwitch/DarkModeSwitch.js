@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit';
 export class DarkModeSwitch extends LitElement {
   static get properties() {
     return {
-      darkMode: { type: Boolean }
+      darkMode: { type: Boolean },
     };
   }
 
@@ -17,7 +17,7 @@ export class DarkModeSwitch extends LitElement {
         height: 34px;
       }
 
-      .darkModeSwitch input { 
+      .darkModeSwitch input {
         opacity: 0;
         width: 0;
         height: 0;
@@ -31,28 +31,28 @@ export class DarkModeSwitch extends LitElement {
         right: 0;
         bottom: 0;
         background-color: #ccc; //off
-        -webkit-transition: .4s;
-        transition: .4s;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
       }
 
       .slider:before {
         position: absolute;
-        content: "";
+        content: '';
         height: 26px;
         width: 26px;
         left: 4px;
         bottom: 4px;
         background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
       }
 
       input:checked + .slider {
-        background-color: #FA6840;
+        background-color: #fa6840;
       }
 
       input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
+        box-shadow: 0 0 1px #2196f3;
       }
 
       input:checked + .slider:before {
@@ -71,14 +71,19 @@ export class DarkModeSwitch extends LitElement {
   render() {
     return html`
       <label class="darkModeSwitch">
-        <input @change="${this._toggleCheckbox}" type="checkbox" ${this.darkMode? "checked" : ""}>
+        <input
+          @change="${this._toggleCheckbox}"
+          type="checkbox"
+          ${this.darkMode ? 'checked' : ''}
+        />
         <span class="slider"></span>
       </label>
     `;
   }
 
-  _toggleCheckbox(e){
-    this.dispatchEvent(new CustomEvent('toggle-switch', { detail: e.target.checked}));
+  _toggleCheckbox(e) {
+    this.dispatchEvent(
+      new CustomEvent('toggle-switch', { detail: e.target.checked })
+    );
   }
-
 }

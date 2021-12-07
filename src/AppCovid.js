@@ -1,12 +1,10 @@
-import { LitElement, html, css } from 'lit';
-import { CovidTracker } from './CovidTracker.js';
+import { LitElement, html } from 'lit';
+import { CovidTrackerConnected } from './packages/CovidTracker/CovidTrackerConnected.js';
 
 export class AppCovid extends LitElement {
   render() {
-    return html`
-      <covid-tracker></covid-tracker>
-    `;
+    return html` <covid-tracker-connected></covid-tracker-connected> `;
   }
 }
 
-customElements.define("covid-tracker", CovidTracker);
+customElements.define('covid-tracker-connected', CovidTrackerConnected);
