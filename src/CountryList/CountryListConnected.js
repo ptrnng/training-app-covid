@@ -1,6 +1,6 @@
-import { CovidTracker } from './CovidTracker.js';
+import { CountryList } from './CountryList.js';
 
-export class CovidTrackerConnected extends CovidTracker {
+export class CountryListConnected extends CountryList {
   connectedCallback() {
     super.connectedCallback();
 

@@ -5,7 +5,6 @@ export class DataSearch extends LitElement {
   static get properties() {
     return {
       data: { type: Array },
-      darkMode: { type: Boolean },
     };
   }
 
@@ -46,8 +45,11 @@ export class DataSearch extends LitElement {
         }
       }
 
-      .darkMode #searchBox {
-        background-image: linear-gradient(#292d31, #282c30);
+      @media (prefers-color-scheme: dark) {
+        #searchBox {
+          background-image: linear-gradient(#292d31, #282c30);
+          color: white;
+        }
       }
     `;
   }
@@ -55,7 +57,6 @@ export class DataSearch extends LitElement {
   constructor() {
     super();
     this.data = [];
-    this.darkMode = false;
   }
 
   render() {
@@ -64,7 +65,7 @@ export class DataSearch extends LitElement {
         href="https://fonts.googleapis.com/css?family=Material+Icons%26display=block"
         rel="stylesheet"
       />
-      <div class="searchBox-container ${this.darkMode ? 'darkMode' : ''}">
+      <div class="searchBox-container">
         <mwc-icon class="search-icon primary-text">search</mwc-icon>
         <input
           id="searchBox"

@@ -1,13 +1,11 @@
 import { LitElement, html, css } from 'lit';
 // import LoadingGIF from '../assets/loading-buffering.gif';
-const LoadingGIF = new URL('../assets/loading-buffering.gif', import.meta.url)
+const LoadingGIF = new URL('./assets/loading-buffering.gif', import.meta.url)
   .href;
 
 export class Loading extends LitElement {
   static get properties() {
-    return {
-      darkMode: { type: Boolean },
-    };
+    return {};
   }
 
   static get styles() {
@@ -22,11 +20,6 @@ export class Loading extends LitElement {
         transform: translate(-50%, -50%);
       }
     `;
-  }
-
-  constructor() {
-    super();
-    this.darkMode = false;
   }
 
   render() {

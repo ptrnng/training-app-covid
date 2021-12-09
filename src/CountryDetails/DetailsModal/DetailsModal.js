@@ -8,7 +8,6 @@ export class DetailsModal extends LitElement {
       modalOpen: { type: Boolean },
       history: { type: Object },
       loading: { type: Boolean },
-      darkMode: { type: Boolean },
       chart: { type: Object },
     };
   }
@@ -57,8 +56,10 @@ export class DetailsModal extends LitElement {
         outline: 0px;
       }
 
-      .darkMode .modal-content {
-        background-image: linear-gradient(#292d31, #282c30);
+      @media (prefers-color-scheme: dark) {
+        .modal-content {
+          background-image: linear-gradient(#292d31, #282c30);
+        }
       }
     `;
   }
@@ -69,17 +70,13 @@ export class DetailsModal extends LitElement {
     this.history = null;
     this.modalOpen = false;
     this.loading = true;
-    this.darkMode = false;
   }
 
   render() {
     if (this.details) {
       return html`
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <div
-          id="${this.details.country}-modal"
-          class="modal ${this.darkMode ? 'darkMode' : ''}"
-        >
+        <div id="${this.details.country}-modal" class="modal">
           <div class="modal-content">
             <button id="closeButton" @click="${this._closeModal}">
               &times;

@@ -5,7 +5,6 @@ export class ContinentFilter extends LitElement {
     return {
       data: { type: Array },
       continentFilter: { type: Array },
-      darkMode: { type: Boolean },
     };
   }
 
@@ -60,7 +59,6 @@ export class ContinentFilter extends LitElement {
     super();
     this.data = [];
     this.continentFilter = [];
-    this.darkMode = false;
   }
 
   render() {

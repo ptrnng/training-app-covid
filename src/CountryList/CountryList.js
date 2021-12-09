@@ -1,12 +1,11 @@
 import { LitElement, html, css } from 'lit';
-import { DetailsCard } from './DetailsCard/DetailsCard.js';
+import { DetailsCard } from '../CountryDetails/DetailsCard/DetailsCard.js';
 import { DataSearch } from './DataSearch/DataSearch.js';
 import { ContinentFilter } from './ContinentFilter/ContinentFilter.js';
 import { DataSort } from './DataSort/DataSort.js';
 import { Loading } from '../common/Loading/Loading.js';
-import { DarkModeSwitch } from './DarkModeSwitch/DarkModeSwitch.js';
 
-export class CovidTracker extends LitElement {
+export class CountryList extends LitElement {
   static get properties() {
     return {
       loading: { type: Boolean },
@@ -16,7 +15,6 @@ export class CovidTracker extends LitElement {
       sortType: { type: String },
       continentFilter: { type: Array },
       searchKey: { type: String },
-      darkMode: { type: Boolean },
     };
   }
 
@@ -25,10 +23,12 @@ export class CovidTracker extends LitElement {
       #CovidTracker-app {
         padding-top: 5%;
       }
-      #CovidTracker-app.darkMode {
-        //dark;
-        background-image: linear-gradient(45deg, #31363a, #1e1f22);
-        color: lightgray;
+      @media (prefers-color-scheme: dark) {
+        #CovidTracker-app {
+          //dark;
+          background-image: linear-gradient(45deg, #31363a, #1e1f22);
+          color: lightgray;
+        }
       }
     `;
   }
@@ -42,7 +42,6 @@ export class CovidTracker extends LitElement {
     this.sortType = 'alphabetical';
     this.continentFilter = [];
     this.searchKey = '';
-    this.darkMode = false;
   }
 
   render() {
@@ -51,24 +50,18 @@ export class CovidTracker extends LitElement {
       content = html`<loading-gif></loading-gif>`;
       // return html`<img style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" src="../assets/loading-buffering.gif">`;
     } else {
-      content = html` <dark-mode-switch
-          @toggle-switch="${this._toggleDarkModeSwitch}"
-        ></dark-mode-switch>
-        <h1 style="text-align: center">Covid Case Tracker</h1>
+      content = html` <h1 style="text-align: center">Covid Case Tracker</h1>
 
         <data-search
-          .darkMode=${this.darkMode}
           @change-search-key="${this._changeSearchKey}"
         ></data-search>
 
         <continent-filter
-          .darkMode=${this.darkMode}
           .continentFilter="${this.continentFilter}"
           @change-continent-filter="${this._changeContinentFilter}"
         ></continent-filter>
 
         <data-sort
-          .darkMode=${this.darkMode}
           .ascendingOrder="${this.ascendingOrder}"
           .sortType="${this.sortType}"
           @change-order="${this._changeOrder}"
@@ -77,28 +70,13 @@ export class CovidTracker extends LitElement {
 
         <div style="display: flex;flex-wrap: wrap;">
           ${this.processedData.map(
-            item => html`
-              <details-card
-                .darkMode=${this.darkMode}
-                .details="${item}"
-              ></details-card>
-            `
+            item => html` <details-card .details="${item}"></details-card> `
           )}
         </div>`;
     }
     return html`
-      <div
-        class="${this.darkMode ? 'darkMode' : ''}"
-        style="height: 100%"
-        id="CovidTracker-app"
-      >
-        ${content}
-      </div>
+      <div style="min-height: 100vh" id="CovidTracker-app">${content}</div>
     `;
-  }
-
-  _toggleDarkModeSwitch(e) {
-    this.darkMode = e.detail;
   }
 
   _changeSortType(e) {
@@ -201,4 +179,3 @@ customElements.define('data-search', DataSearch);
 customElements.define('continent-filter', ContinentFilter);
 customElements.define('data-sort', DataSort);
 customElements.define('loading-gif', Loading);
-customElements.define('dark-mode-switch', DarkModeSwitch);

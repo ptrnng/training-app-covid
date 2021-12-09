@@ -6,7 +6,6 @@ export class DataSort extends LitElement {
     return {
       ascendingOrder: { type: Boolean },
       sortType: { type: String },
-      darkMode: { type: Boolean },
     };
   }
 
@@ -81,16 +80,18 @@ export class DataSort extends LitElement {
         }
       }
 
-      .darkMode #sortTypeSelector {
-        background-image: linear-gradient(#292d31, #282c30);
-        color: white;
-      }
-      .darkMode .sortTypeOption {
-        background: #292d31;
-      }
-      .darkMode #orderButton {
-        background-image: linear-gradient(#292d31, #282c30);
-        color: white;
+      @media (prefers-color-scheme: dark) {
+        #sortTypeSelector {
+          background-image: linear-gradient(#292d31, #282c30);
+          color: white;
+        }
+        .sortTypeOption {
+          background: #292d31;
+        }
+        #orderButton {
+          background-image: linear-gradient(#292d31, #282c30);
+          color: white;
+        }
       }
     `;
   }
@@ -99,7 +100,6 @@ export class DataSort extends LitElement {
     super();
     this.ascendingOrder = true;
     this.sortType = 'alphabetical';
-    this.darkMode = false;
   }
 
   render() {
@@ -108,7 +108,7 @@ export class DataSort extends LitElement {
         href="https://fonts.googleapis.com/css?family=Material+Icons%26display=block"
         rel="stylesheet"
       />
-      <div class="sort-container ${this.darkMode ? 'darkMode' : ''}">
+      <div class="sort-container">
         <div id="select-container">
           <mwc-icon class="sort-icon primary-text">sort</mwc-icon>
           <select id="sortTypeSelector" @change=${() => this._changeSortType()}>

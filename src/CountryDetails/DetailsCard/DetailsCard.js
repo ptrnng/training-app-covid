@@ -1,13 +1,12 @@
 import { LitElement, html, css } from 'lit';
 import { CountryCodes } from './CountryCodes.js';
-import { DetailsModalConnected } from './DetailsModal/DetailsModalConnected.js';
+import { DetailsModalConnected } from '../DetailsModal/DetailsModalConnected.js';
 
 export class DetailsCard extends LitElement {
   static get properties() {
     return {
       details: { type: Object },
       modalOpen: { type: Boolean },
-      darkMode: { type: Boolean },
     };
   }
 
@@ -117,8 +116,10 @@ export class DetailsCard extends LitElement {
         }
       }
 
-      .darkMode .data__card-content {
-        background-image: linear-gradient(#292d31, #282c30);
+      @media (prefers-color-scheme: dark) {
+        .data__card-content {
+          background-image: linear-gradient(#292d31, #282c30);
+        }
       }
     `;
   }
@@ -127,7 +128,6 @@ export class DetailsCard extends LitElement {
     super();
     this.details = null;
     this.modalOpen = false;
-    this.darkMode = false;
   }
 
   render() {
@@ -139,11 +139,10 @@ export class DetailsCard extends LitElement {
         />
         <details-modal-connected
           @close-modal="${this._closeModal}"
-          .darkMode="${this.darkMode}"
           .details="${this.details}"
           .modalOpen="${this.modalOpen}"
         ></details-modal-connected>
-        <div class="data__card-listitem ${this.darkMode ? 'darkMode' : ''}">
+        <div class="data__card-listitem">
           <div class="flag">
             <img
               width="100%"
