@@ -62,6 +62,11 @@ export class DetailsModal extends LitElement {
         #countryChart-div {
           width: 200%;
         }
+        #closeButton {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+        }
       }
       @media (prefers-color-scheme: dark) {
         .modal-content {
