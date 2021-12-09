@@ -246,8 +246,21 @@ export class DetailsCard extends LitElement {
   }
 
   _dataCardClicked() {
-    this.shadowRoot.getElementById('view-history').style.display = 'block';
-    this.shadowRoot.getElementById('flag').style.position = 'relative';
+    if (
+      this.shadowRoot.getElementById('view-history').style.display === 'block'
+    )
+      this.shadowRoot.getElementById('view-history').style.display = 'none';
+    else this.shadowRoot.getElementById('view-history').style.display = 'block';
+
+    if (
+      this.shadowRoot.getElementById('view-history').style.position ===
+      'relative'
+    )
+      this.shadowRoot.getElementById('view-history').style.position =
+        'absolute';
+    else
+      this.shadowRoot.getElementById('view-history').style.position =
+        'relative';
   }
 
   _closeModal() {
