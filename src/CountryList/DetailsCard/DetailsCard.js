@@ -81,16 +81,19 @@ export class DetailsCard extends LitElement {
       }
 
       .data__card-listitem:hover .view-history,
-      .data__card-listitem:active .view-history {
+      .data__card-listitem:active .view-history,
+      .data__card-listitem:focus .view-history {
         display: block;
       }
       .data__card-listitem:hover .flag,
-      .data__card-listitem:active .flag {
+      .data__card-listitem:active .flag,
+      .data__card-listitem:focus .flag {
         position: relative;
       }
 
       .view-history:hover,
-      .view-history:active {
+      .view-history:active,
+      .view-history:focus {
         filter: brightness(50%);
       }
       .view-history {
