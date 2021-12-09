@@ -89,8 +89,8 @@ export class DetailsModal extends LitElement {
               &times;
             </button>
             <h1>${this.details.country}</h1>
-            ${this.loading ? html`<loading-gif></loading-gif>` : ''}
             <div id="countryChart-div">
+              ${this.loading ? html`<loading-gif></loading-gif>` : ''}
               <canvas id="countryChart"></canvas>
             </div>
           </div>
