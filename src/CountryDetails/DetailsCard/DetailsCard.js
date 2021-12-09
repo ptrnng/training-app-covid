@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { CountryCodes } from './CountryCodes.js';
+import { CountryCodes } from '../../common/constants/CountryCodes.js';
 import { DetailsModalConnected } from '../DetailsModal/DetailsModalConnected.js';
 
 export class DetailsCard extends LitElement {
