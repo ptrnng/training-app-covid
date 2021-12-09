@@ -80,20 +80,14 @@ export class DetailsCard extends LitElement {
         border-radius: 10px 10px 0 0;
       }
 
-      .data__card-listitem:hover .view-history,
-      .data__card-listitem:active .view-history,
-      .data__card-listitem:focus .view-history {
+      .data__card-listitem:hover .view-history {
         display: block;
       }
-      .data__card-listitem:hover .flag,
-      .data__card-listitem:active .flag,
-      .data__card-listitem:focus .flag {
+      .data__card-listitem:hover .flag {
         position: relative;
       }
 
-      .view-history:hover,
-      .view-history:active,
-      .view-history:focus {
+      .view-history:hover {
         filter: brightness(50%);
       }
       .view-history {
@@ -148,7 +142,11 @@ export class DetailsCard extends LitElement {
           .details="${this.details}"
           .modalOpen="${this.modalOpen}"
         ></details-modal-connected>
-        <div class="data__card-listitem">
+        <div
+          class="data__card-listitem"
+          @click="${this.dataCardClicked}"
+          @keyup=""
+        >
           <div class="flag">
             <img
               width="100%"
@@ -245,6 +243,13 @@ export class DetailsCard extends LitElement {
       `;
     }
     return html``;
+  }
+
+  _dataCardClicked() {
+    this.shadowRoot.getElementsByClassName('view-history')[0].style.display =
+      'block';
+    this.shadowRoot.getElementsByClassName('flag')[0].style.position =
+      'relative';
   }
 
   _closeModal() {

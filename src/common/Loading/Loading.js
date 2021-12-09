@@ -17,7 +17,15 @@ export class Loading extends LitElement {
         position: absolute;
         top: 50%;
         left: 50%;
+        max-height: 100px;
         transform: translate(-50%, -50%);
+      }
+
+      @media screen and (max-width: 640px) {
+        img {
+          max-height: 50px;
+          top: 60%;
+        }
       }
     `;
   }
