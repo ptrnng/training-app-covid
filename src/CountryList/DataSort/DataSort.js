@@ -34,7 +34,6 @@ export class DataSort extends LitElement {
       }
       #sortTypeSelector {
         position: relative;
-        text-align: center;
         border-radius: 2px;
         border-style: solid;
         border-width: 0;
