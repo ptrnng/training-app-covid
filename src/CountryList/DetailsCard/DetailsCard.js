@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { CountryCodes } from '../../common/constants/CountryCodes.js';
-import { DetailsModalConnected } from '../DetailsModal/DetailsModalConnected.js';
+import { DetailsModalConnected } from '../../CountryDetails/DetailsModal/DetailsModalConnected.js';
 
 export class DetailsCard extends LitElement {
   static get properties() {
@@ -105,12 +105,12 @@ export class DetailsCard extends LitElement {
         background-color: rgba(0, 0, 0, 0.5);
       }
 
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 1007px) {
         :host {
           width: 50%;
         }
       }
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: 640px) {
         :host {
           width: 100%;
         }

@@ -34,7 +34,7 @@ export class ContinentFilter extends LitElement {
         box-sizing: border-box;
         margin: 0 30px 0 0;
       }
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 1007px) {
         .filter-container div {
           width: 50%;
         }
@@ -43,7 +43,7 @@ export class ContinentFilter extends LitElement {
           width: 80%;
         }
       }
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: 640px) {
         .filter-container div {
           width: 100%;
         }

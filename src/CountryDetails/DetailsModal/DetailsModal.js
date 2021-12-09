@@ -36,9 +36,10 @@ export class DetailsModal extends LitElement {
         padding: 30px;
         overflow: auto;
       }
-      #myChart-div {
+      #countryChart-div {
         background: white;
         border-radius: 10px 10px 10px 10px;
+        overflow: scroll;
       }
       #closeButton:hover {
         filter: brightness(50%);
@@ -54,6 +55,9 @@ export class DetailsModal extends LitElement {
         transition: color 0.3s ease 0s;
         cursor: pointer;
         outline: 0px;
+      }
+      #countryChart {
+        width: 2000px;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -83,8 +87,8 @@ export class DetailsModal extends LitElement {
             </button>
             <h1>${this.details.country}</h1>
             ${this.loading ? html`<loading-gif></loading-gif>` : ''}
-            <div id="myChart-div">
-              <canvas id="myChart" style="width:100%;"></canvas>
+            <div id="countryChart-div">
+              <canvas id="countryChart" width="2000px" height="1000px"></canvas>
             </div>
           </div>
         </div>
@@ -101,8 +105,9 @@ export class DetailsModal extends LitElement {
   }
 
   _createChart() {
-    const ctx = this.renderRoot.querySelector('#myChart').getContext('2d');
+    const ctx = this.renderRoot.querySelector('#countryChart').getContext('2d');
     this.chart = new Chart(ctx, {
+      maintainAspectRatio: true,
       type: 'line',
       data: {
         labels: this.history.map(h => h.day),

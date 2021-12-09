@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { DetailsCard } from '../CountryDetails/DetailsCard/DetailsCard.js';
+import { DetailsCard } from './DetailsCard/DetailsCard.js';
 import { DataSearch } from './DataSearch/DataSearch.js';
 import { ContinentFilter } from './ContinentFilter/ContinentFilter.js';
 import { DataSort } from './DataSort/DataSort.js';
@@ -130,28 +130,14 @@ export class CountryList extends LitElement {
           (a, b) => a.population - b.population
         );
         break;
-      case 'activeCases':
-        this.processedData = this.processedData.filter(
-          country => country.cases.active
-        );
-        this.processedData = this.processedData.sort(
-          (a, b) => a.cases.active - b.cases.active
-        );
-        break;
-      case 'totalCases':
-        this.processedData = this.processedData.filter(
-          country => country.cases.total
-        );
-        this.processedData = this.processedData.sort(
-          (a, b) => a.cases.total - b.cases.total
-        );
-        break;
+      case 'active':
+      case 'total':
       case 'recovered':
         this.processedData = this.processedData.filter(
-          country => country.cases.recovered
+          country => country.cases[this.sortType]
         );
         this.processedData = this.processedData.sort(
-          (a, b) => a.cases.recovered - b.cases.recovered
+          (a, b) => a.cases[this.sortType] - b.cases[this.sortType]
         );
         break;
       case 'deaths':

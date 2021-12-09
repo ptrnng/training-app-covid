@@ -63,13 +63,13 @@ export class DataSort extends LitElement {
         top: 4px;
       }
 
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 1007px) {
         .sort-container {
           margin-left: 10%;
           width: 80%;
         }
       }
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: 640px) {
         .sort-container {
           margin-left: 0;
           width: 100%;
@@ -118,12 +118,8 @@ export class DataSort extends LitElement {
             <option class="sortTypeOption" value="population">
               Population
             </option>
-            <option class="sortTypeOption" value="activeCases">
-              Active Cases
-            </option>
-            <option class="sortTypeOption" value="totalCases">
-              Total Cases
-            </option>
+            <option class="sortTypeOption" value="active">Active Cases</option>
+            <option class="sortTypeOption" value="total">Total Cases</option>
             <option class="sortTypeOption" value="recovered">Recovered</option>
             <option class="sortTypeOption" value="deaths">Deaths</option>
           </select>

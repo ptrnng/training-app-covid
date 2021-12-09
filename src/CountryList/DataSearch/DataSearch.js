@@ -32,13 +32,13 @@ export class DataSearch extends LitElement {
         box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
           0 4px 20px 0 rgba(0, 0, 0, 0.19);
       }
-      @media screen and (max-width: 800px) {
+      @media screen and (max-width: 1007px) {
         .searchBox-container {
           margin-left: 10%;
           width: 80%;
         }
       }
-      @media screen and (max-width: 400px) {
+      @media screen and (max-width: 640px) {
         .searchBox-container {
           margin-left: 0;
           width: 100%;
