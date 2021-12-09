@@ -37,9 +37,10 @@ export class DetailsModal extends LitElement {
         overflow: auto;
       }
       #countryChart-div {
+        position: relative;
         background: white;
         border-radius: 10px 10px 10px 10px;
-        overflow: scroll;
+        width: 100%;
       }
       #closeButton:hover {
         filter: brightness(50%);
@@ -56,10 +57,12 @@ export class DetailsModal extends LitElement {
         cursor: pointer;
         outline: 0px;
       }
-      #countryChart {
-        width: 2000px;
-      }
 
+      @media screen and (max-width: 640px) {
+        #countryChart-div {
+          width: 200%;
+        }
+      }
       @media (prefers-color-scheme: dark) {
         .modal-content {
           background-image: linear-gradient(#292d31, #282c30);
@@ -88,7 +91,7 @@ export class DetailsModal extends LitElement {
             <h1>${this.details.country}</h1>
             ${this.loading ? html`<loading-gif></loading-gif>` : ''}
             <div id="countryChart-div">
-              <canvas id="countryChart" width="2000px" height="1000px"></canvas>
+              <canvas id="countryChart"></canvas>
             </div>
           </div>
         </div>
