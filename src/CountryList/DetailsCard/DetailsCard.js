@@ -68,7 +68,7 @@ export class DetailsCard extends LitElement {
         background: black;
       }
 
-      .flag {
+      #flag {
         min-height: 50px;
         border-radius: 10px 10px 0 0;
         position: absolute;
@@ -76,21 +76,21 @@ export class DetailsCard extends LitElement {
         z-index: -1;
       }
 
-      .flag img {
+      #flag img {
         border-radius: 10px 10px 0 0;
       }
 
-      .data__card-listitem:hover .view-history {
+      .data__card-listitem:hover #view-history {
         display: block;
       }
-      .data__card-listitem:hover .flag {
+      .data__card-listitem:hover #flag {
         position: relative;
       }
 
-      .view-history:hover {
+      #view-history:hover {
         filter: brightness(50%);
       }
-      .view-history {
+      #view-history {
         display: none;
         border: solid 1px white;
         width: 120px;
@@ -142,12 +142,8 @@ export class DetailsCard extends LitElement {
           .details="${this.details}"
           .modalOpen="${this.modalOpen}"
         ></details-modal-connected>
-        <div
-          class="data__card-listitem"
-          @click="${this.dataCardClicked}"
-          @keyup=""
-        >
-          <div class="flag">
+        <div class="data__card-listitem">
+          <div id="flag">
             <img
               width="100%"
               alt=""
@@ -158,7 +154,7 @@ export class DetailsCard extends LitElement {
                 : ''}.png"
             />
             <button
-              class="view-history"
+              id="view-history"
               @click="${() => {
                 this.modalOpen = true;
               }}"
@@ -166,7 +162,11 @@ export class DetailsCard extends LitElement {
               View History
             </button>
           </div>
-          <header class="padding-20px">
+          <header
+            class="padding-20px"
+            @click="${() => this._dataCardClicked()}"
+            @keydown=""
+          >
             <h2>${this.details.country}</h2>
             <h4 style="padding-left: 40px; position: relative">
               <mwc-icon style="bottom: 0px;left: 3px;position: absolute;"
@@ -246,10 +246,8 @@ export class DetailsCard extends LitElement {
   }
 
   _dataCardClicked() {
-    this.shadowRoot.getElementsByClassName('view-history')[0].style.display =
-      'block';
-    this.shadowRoot.getElementsByClassName('flag')[0].style.position =
-      'relative';
+    this.shadowRoot.getElementById('view-history').style.display = 'block';
+    this.shadowRoot.getElementById('flag').style.position = 'relative';
   }
 
   _closeModal() {
