@@ -247,8 +247,7 @@ export class DetailsCard extends LitElement {
 
   _dataCardClicked() {
     this.shadowRoot.getElementById('view-history').style.display = 'block';
-
-    this.shadowRoot.getElementById('view-history').style.position = 'relative';
+    this.shadowRoot.getElementById('flag').style.position = 'relative';
   }
 
   _closeModal() {
