@@ -80,14 +80,17 @@ export class DetailsCard extends LitElement {
         border-radius: 10px 10px 0 0;
       }
 
-      .data__card-listitem:hover .view-history {
+      .data__card-listitem:hover .view-history,
+      .data__card-listitem:active .view-history {
         display: block;
       }
-      .data__card-listitem:hover .flag {
+      .data__card-listitem:hover .flag,
+      .data__card-listitem:active .flag {
         position: relative;
       }
 
-      .view-history:hover {
+      .view-history:hover,
+      .view-history:active {
         filter: brightness(50%);
       }
       .view-history {
