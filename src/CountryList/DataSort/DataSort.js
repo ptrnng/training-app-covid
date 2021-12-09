@@ -43,6 +43,7 @@ export class DataSort extends LitElement {
         width: 100%;
         box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
           0 4px 20px 0 rgba(0, 0, 0, 0.19);
+        text-align: -webkit-center;
       }
 
       #orderButton {
