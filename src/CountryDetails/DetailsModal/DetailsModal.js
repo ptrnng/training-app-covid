@@ -59,6 +59,10 @@ export class DetailsModal extends LitElement {
       }
 
       @media screen and (max-width: 640px) {
+        #closeButton {
+          top: 30%;
+          left: 170%;
+        }
         #countryChart-div {
           width: 200%;
         }
