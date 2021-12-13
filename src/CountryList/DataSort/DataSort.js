@@ -17,7 +17,7 @@ export class DataSort extends LitElement {
         margin-left: 15%;
         box-sizing: border-box;
         position: relative;
-        padding: 10px 20px 10px 20px;
+        padding: 10px 25px 10px 25px;
         width: 70%;
       }
       #select-container {
@@ -38,7 +38,7 @@ export class DataSort extends LitElement {
         border-style: solid;
         border-width: 0;
         box-sizing: border-box;
-        padding: 8px 16px 8px 16px;
+        padding: 8px 40px 8px 40px;
         width: 100%;
         box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2),
           0 4px 20px 0 rgba(0, 0, 0, 0.19);
